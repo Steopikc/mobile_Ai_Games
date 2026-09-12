@@ -1,29 +1,239 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f0f13">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>Мои игры</title>
-<style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#0f0f13;color:#eee;font-family:system-ui,-apple-system,Segoe UI,sans-serif}body{padding-bottom:env(safe-area-inset-bottom)}
-#menu{max-width:900px;margin:auto;padding:clamp(24px,6vw,56px) 16px 40px}header{text-align:center;margin-bottom:30px}h1{font-size:clamp(2rem,8vw,3rem);margin:0 0 8px;background:linear-gradient(90deg,#00ff9d,#00b4ff);-webkit-background-clip:text;color:transparent}header p{color:#999;margin:0;font-size:.98rem}
-.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}.game-card{background:#1a1a22;border:1px solid #2a2a35;border-radius:18px;overflow:hidden;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.game-card:active{transform:scale(.985)}.game-cover{height:150px;display:flex;align-items:center;justify-content:center;font-size:4rem}.snake{background:linear-gradient(135deg,#0d3b2e,#1a5c45)}.soul{background:linear-gradient(135deg,#3b1a2e,#5c2a45)}.game-info{padding:18px}.game-info h3{margin:0 0 7px;font-size:1.25rem;color:#fff}.game-info p{margin:0;color:#aaa;line-height:1.45}.play{display:block;margin-top:14px;padding:12px;text-align:center;background:#238636;border-radius:10px;font-weight:700}
-#game-screen{display:none;position:fixed;inset:0;background:#000;z-index:100;flex-direction:column;padding-top:env(safe-area-inset-top)}#game-header{height:52px;min-height:52px;background:#111;display:flex;align-items:center;padding:0 10px;border-bottom:1px solid #333}#back-btn{background:#1a1a1a;color:#00ff9d;border:1px solid #00ff9d;padding:7px 12px;border-radius:8px;font-size:.9rem;touch-action:manipulation}#game-title{margin-left:12px;font-size:1rem;color:#ddd}#game-frame{flex:1;width:100%;border:0;background:#000;min-height:0}
-@media (max-width:500px){#menu{padding-top:28px}.game-cover{height:125px}}
-</style>
-</head><body>
-<main id="menu"><header><h1>🎮 Мои игры</h1><p>Играй прямо с телефона</p></header><div class="games-grid" id="games-list"></div></main>
-<section id="game-screen"><div id="game-header"><button id="back-btn" onclick="closeGame()">← Назад</button><div id="game-title"></div></div><iframe id="game-frame" allow="fullscreen; autoplay"></iframe></section>
-<script>
-const games=[
-{id:'soul',title:'SoulBound',description:'Dodge Arena — двигай душу и уклоняйся от атак.',file:"soulbound.html",cover:'soul',emoji:'👻'},
-{id:'snake',title:'Змейка',description:'Классическая змейка с противником-компьютером.',file:"snake.html",cover:'snake',emoji:'🐍'}];
-const list=document.querySelector('#games-list');
-games.forEach(g=>{const c=document.createElement('article');c.className='game-card';c.innerHTML=`<div class="game-cover ${g.cover}">${g.emoji}</div><div class="game-info"><h3>${g.title}</h3><p>${g.description}</p><div class="play">Играть</div></div>`;c.onclick=()=>openGame(g);list.appendChild(c)});
-function openGame(g){document.querySelector('#menu').style.display='none';document.querySelector('#game-screen').style.display='flex';document.querySelector('#game-title').textContent=g.title;document.querySelector('#game-frame').src=g.file;document.body.style.overflow='hidden'}
-function closeGame(){document.querySelector('#game-frame').src='about:blank';document.querySelector('#game-screen').style.display='none';document.querySelector('#menu').style.display='block';document.body.style.overflow='auto'}
-addEventListener('keydown',e=>{if(e.key==='Escape')closeGame()});
-</script></body></html>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Games Platform</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #0f0f13;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+
+    #menu {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    header h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00ff9d, #00b4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      color: #888;
+      font-size: 1.05rem;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .game-card {
+      background: #1a1a22;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      border: 1px solid #2a2a35;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: #00ff9d;
+      box-shadow: 0 12px 28px rgba(0, 255, 157, 0.12);
+    }
+
+    .game-cover {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.2rem;
+      position: relative;
+    }
+
+    .game-cover.snake   { background: linear-gradient(135deg, #0d3b2e, #1a5c45); }
+    .game-cover.ttt     { background: linear-gradient(135deg, #1a2a4a, #2a4a7a); }
+    .game-cover.memory  { background: linear-gradient(135deg, #3b1a2e, #5c2a45); }
+    .game-cover.g2048   { background: linear-gradient(135deg, #3b2e1a, #5c4a2a); }
+
+    .game-info {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .game-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .game-info p {
+      color: #999;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    #game-screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 100;
+      flex-direction: column;
+    }
+
+    #game-header {
+      height: 52px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border-bottom: 1px solid #333;
+      flex-shrink: 0;
+    }
+
+    #back-btn {
+      background: #1a1a1a;
+      color: #00ff9d;
+      border: 1px solid #00ff9d;
+      padding: 7px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    #back-btn:hover {
+      background: #00ff9d;
+      color: #000;
+    }
+
+    #game-title {
+      margin-left: 16px;
+      font-size: 1.15rem;
+      color: #ccc;
+    }
+
+    #game-frame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="menu">
+    <header>
+      <h1>HTML Games Platform</h1>
+      <p>Коллекция игр на чистом HTML + CSS + JavaScript</p>
+    </header>
+
+    <div class="games-grid" id="games-list"></div>
+  </div>
+
+  <div id="game-screen">
+    <div id="game-header">
+      <button id="back-btn" onclick="closeGame()">← Назад в меню</button>
+      <div id="game-title"></div>
+    </div>
+    <iframe id="game-frame" src="" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    const games = [
+      {
+        id: "snake",
+        title: "Змейка",
+        description: "Классическая змейка. Собирай еду и не врежься в себя.",
+        file: "snake.html",
+        coverClass: "snake",
+        emoji: "🐍"
+      },
+      {
+        id: "tictactoe",
+        title: "Крестики-нолики",
+        description: "Играй против компьютера. Сложный ИИ.",
+        file: "games/tictactoe.html",
+        coverClass: "ttt",
+        emoji: "❌"
+      },
+      {
+        id: "memory",
+        title: "Мемори",
+        description: "Найди все пары карточек за минимальное число ходов.",
+        file: "games/memory.html",
+        coverClass: "memory",
+        emoji: "🃏"
+      },
+      {
+        id: "2048",
+        title: "2048",
+        description: "Сложи плитки и доберись до 2048.",
+        file: "games/2048.html",
+        coverClass: "g2048",
+        emoji: "🔢"
+      }
+    ];
+
+    const gamesList = document.getElementById('games-list');
+
+    games.forEach(game => {
+      const card = document.createElement('div');
+      card.className = 'game-card';
+      card.onclick = () => openGame(game);
+
+      card.innerHTML = `
+        <div class="game-cover ${game.coverClass}">${game.emoji}</div>
+        <div class="game-info">
+          <h3>${game.title}</h3>
+          <p>${game.description}</p>
+        </div>
+      `;
+      gamesList.appendChild(card);
+    });
+
+    function openGame(game) {
+      document.getElementById('menu').style.display = 'none';
+      document.getElementById('game-screen').style.display = 'flex';
+      document.getElementById('game-title').textContent = game.title;
+      document.getElementById('game-frame').src = game.file;
+    }
+
+    function closeGame() {
+      document.getElementById('game-screen').style.display = 'none';
+      document.getElementById('menu').style.display = 'block';
+      document.getElementById('game-frame').src = '';
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeGame();
+    });
+  </script>
+</body>
+</html>
