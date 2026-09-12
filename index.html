@@ -20,7 +20,7 @@
 <script>
 const games=[
 {id:'soul',title:'SoulBound',description:'Dodge Arena — двигай душу и уклоняйся от атак.',file:"soulbound.html",cover:'soul',emoji:'👻'},
-{id:'snake',title:'Змейка',description:'Классическая змейка с противником-компьютером.',file:"mobile_Ai_Games/snake.html",cover:'snake',emoji:'🐍'}];
+{id:'snake',title:'Змейка',description:'Классическая змейка с противником-компьютером.',file:"snake.html",cover:'snake',emoji:'🐍'}];
 const list=document.querySelector('#games-list');
 games.forEach(g=>{const c=document.createElement('article');c.className='game-card';c.innerHTML=`<div class="game-cover ${g.cover}">${g.emoji}</div><div class="game-info"><h3>${g.title}</h3><p>${g.description}</p><div class="play">Играть</div></div>`;c.onclick=()=>openGame(g);list.appendChild(c)});
 function openGame(g){document.querySelector('#menu').style.display='none';document.querySelector('#game-screen').style.display='flex';document.querySelector('#game-title').textContent=g.title;document.querySelector('#game-frame').src=g.file;document.body.style.overflow='hidden'}
