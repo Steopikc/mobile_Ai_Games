@@ -30,9 +30,6 @@
     }
     #score span { color: #58a6ff; font-weight: 600; }
     canvas {
-      width: min(400px, 88vw);
-      height: min(400px, 88vw);
-      aspect-ratio: 1 / 1;
       background: #161b22;
       border: 2px solid #30363d;
       border-radius: 8px;
@@ -85,7 +82,7 @@
       background: #21262d;
       border: 1px solid #30363d;
     }
-    @media (pointer: coarse), (max-width: 500px) {
+    @media (max-width: 500px) {
       .mobile-controls { display: flex; }
       .controls { display: none; }
     }
